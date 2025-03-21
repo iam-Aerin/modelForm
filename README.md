@@ -81,3 +81,7 @@ python manage.py makemigrations
 ```shell
 python manage.py migrate
 ```
+
+8. admin  등록
+`admin.py'`에서 
+`admin.site.register(Article)`
