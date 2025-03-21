@@ -8,7 +8,7 @@
     ---
 # Django
 
-## 0. setting
+0. setting
 
 - `.gitignore`
 - 가상환경 설정
@@ -95,3 +95,16 @@ python manage.py createsuperuser
 ```shell
 python manage.py runserver
 ```
+
++) 추가설정
+`setting.py`에 추가적인 폴더 [`templates `] 도 찾아줘
+
+외부에 `templates` 이라는 폴더를 생성하고고
+
+```python
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR / 'templates' ],
+```
+=> `BASE_DIR / 'templates'` 를 추가함.
