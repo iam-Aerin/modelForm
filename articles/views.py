@@ -25,27 +25,53 @@ def create(request):
     # GET create/ => 빈 종이를 보여주는 기능
     # POST create/ => 시용자가 입력한 데이터를 저장하는 기능
     # 하나의 종이에 두 기능을 함께 처리
+	
+	# 모든 경우의 수
+	# - GET : form 을 만들어서  html 문서를 사용자에게 리턴
+	# - POST: invalid data(데이터 검증 실패)
+	# - POST: valid data ()
 
-    if request.method == 'POST':
-        form = ArticleForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('articles:index')
-        # 정보가 유효하다면  저장해라
-        else:
-            context = {
-                'form' : form,
-            }
-        # 유효하지않다면, 알려주자
-            return render(request, 'create.html', context)
 
-    else:
-        # 빈종이를 보여주는 기능을 여기에 짠다.
-        # return render(request, 'create.html')
-        #  이렇게 해왔지만, 이번에는 forms.py를 활용해서 코드를 짠다. 일일히 html을추가해주지 않아도 되게
-        form = ArticleForm()
-        context = {
-            'form' : form,
-        }
+# 5. POST 요청 (invalid data)
 
-        return render(request, 'create.html', context)
+# 10. Post 요청 (재) (valid data)
+	if request.method == 'POST':
+
+		# 6. 사용자가 입력한 데이터 (request.POST) 가 invalid함 => 그걸 담은 form을 생성
+		
+		# 11. 사용자가 입력한 데이터 (request.POST)가 valid함 => 그걸 담은 form을 생성성
+		form = ArticleForm(request.POST)
+
+
+		# 7. form 을 검증 (실패)
+		# 12. form 을 검증 (성공 => if 문 안으로 들어간다.)
+
+		if form.is_valid():
+			# 13. form 저장장
+
+			form.save()
+			return redirect('articles:index')
+			# 14. index로 redirect해라.
+
+		# 정보가 유효하다면  저장해라
+	   
+	# 1. GET 요청
+	else:
+		# 빈종이를 보여주는 기능을 여기에 짠다.
+		# return render(request, 'create.html')
+		#  이렇게 해왔지만, 이번에는 forms.py를 활용해서 코드를 짠다. 일일히 html을추가해주지 않아도 되게
+		# 2. 비어있는 form을 만든다.
+		form = ArticleForm()
+	
+	# 3. context dict에 비어있는 form 을 담는다.
+
+	# 8. invalid한 데이터가 담긴 form (context dixct에 검증에 실패한 form을 담는다.)
+	context = {
+		'form': form,
+	}
+
+
+	# 4. create.html.dm을 랜더링
+
+	# 9. create.html을 랜더링
+	return render(request, 'create.html', context)
