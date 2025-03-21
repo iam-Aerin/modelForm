@@ -3,6 +3,8 @@
     >
     > Form: 사용자에게 데이터를 입력받기 위한 (input, textbox -> submit)
 
+    => 유효성 검사
+
 - 데이터와 데이터를 입력 받기 위한 form => modelform
 
     ---
@@ -108,3 +110,5 @@ TEMPLATES = [
         'DIRS': [BASE_DIR / 'templates' ],
 ```
 => `BASE_DIR / 'templates'` 를 추가함.
+
++) 앱폴더 안에 `urls.py`파일 추가해줌. 
