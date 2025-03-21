@@ -85,3 +85,13 @@ python manage.py migrate
 8. admin  등록
 `admin.py'`에서 
 `admin.site.register(Article)`
+
+9. createsuperuser: admin 계정 만들기
+```shell
+python manage.py createsuperuser
+```
+
+10. server 실행
+```shell
+python manage.py runserver
+```
