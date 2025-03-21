@@ -39,7 +39,7 @@ def create(request):
 
 		# 6. 사용자가 입력한 데이터 (request.POST) 가 invalid함 => 그걸 담은 form을 생성
 		
-		# 11. 사용자가 입력한 데이터 (request.POST)가 valid함 => 그걸 담은 form을 생성성
+		# 11. 사용자가 입력한 데이터 (request.POST)가 valid함 => 그걸 담은 form을 생성
 		form = ArticleForm(request.POST)
 
 
@@ -47,7 +47,7 @@ def create(request):
 		# 12. form 을 검증 (성공 => if 문 안으로 들어간다.)
 
 		if form.is_valid():
-			# 13. form 저장장
+			# 13. form 저장
 
 			form.save()
 			return redirect('articles:index')
