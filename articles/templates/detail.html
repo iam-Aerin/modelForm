@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="card mb-4 shadow">
+    <div class="card-header bg-white">
+        <h3 class="mb-0">{{ article.title }}</h3>
+    </div>
+    <div class="card-body">
+        <p class="card-text">{{ article.content|linebreaksbr }}</p>
+    </div>
+    <div class="card-footer bg-white text-muted d-flex justify-content-between">
+        <small>작성일: {{ article.created_at|date:"Y-m-d H:i" }}</small>
+        <small>수정일: {{ article.updated_at|date:"Y-m-d H:i" }}</small>
+    </div>
+</div>
+
+<div class="d-flex gap-2 mb-4">
+    <a href="{% url 'articles:index' %}" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left"></i> 목록으로
+    </a>
+    <!-- 수정 및 삭제 버튼 제거 -->
+</div>
+
+<div class="card mb-4 shadow-sm">
+    <div class="card-header bg-white">
+        <h5 class="mb-0">댓글 작성</h5>
+    </div>
+    <div class="card-body">
+        <form action="{% url 'articles:comment_create' article.id %}" method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                {{ form.content.label_tag }}
+                <input type="text" name="{{ form.content.name }}" id="{{ form.content.id_for_label }}" class="form-control" value="{{ form.content.value|default:'' }}">
+                {% if form.content.errors %}
+                <div class="text-danger mt-1">
+                    {{ form.content.errors }}
+                </div>
+                {% endif %}
+            </div>
+            <button type="submit" class="btn btn-primary">댓글 작성</button>
+        </form>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">댓글 목록</h5>
+        <span class="badge bg-secondary">{{ article.comment_set.all|length }}개</span>
+    </div>
+    <ul class="list-group list-group-flush">
+        {% for comment in article.comment_set.all %}
+        <li class="list-group-item">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="mb-1">{{ comment.content }}</p>
+                    <small class="text-muted">{{ comment.created_at|date:"Y-m-d H:i" }}</small>
+                </div>
+                <a href="{% url 'articles:comment_delete' article.id comment.id %}" 
+                   class="btn btn-sm btn-outline-danger"
+                   onclick="return confirm('댓글을 삭제하시겠습니까?')">
+                    <i class="bi bi-x-lg"></i>
+                </a>
+            </div>
+        </li>
+        {% empty %}
+        <li class="list-group-item text-center text-muted py-3">
+            첫 번째 댓글을 작성해보세요!
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

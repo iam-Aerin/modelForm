@@ -1,21 +1,9 @@
 from django.shortcuts import render, redirect
 # redirect사용할거니까 import에 추가하기
 
-from .models import Article
-from .forms import ArticleForm
+from .models import Article, Comment
+from .forms import ArticleForm, CommentForm
 
-# Create your views here.
-def index(request):
-    # index 페이지의 목표는 전체 데이터를 읽는 것이므로
-    # 전체 데이터를 가져와야한다.
-    articles = Article.objects.all()
-
-    context = {
-        'articles': articles,
-    }
-
-    return render(request, 'index.html', context)
-# 이후 articles 폴더 안에 templates라는 폴더를 생성한뒤 그 안에 index.html을 만들어준다. 
 
 
 def create(request):
@@ -75,3 +63,53 @@ def create(request):
 
 	# 9. create.html을 랜더링
 	return render(request, 'create.html', context)
+
+
+# Create your views here.
+def index(request):
+    # index 페이지의 목표는 전체 데이터를 읽는 것이므로
+    # 전체 데이터를 가져와야한다.
+    articles = Article.objects.all()
+
+    context = {
+        'articles': articles,
+    }
+
+    return render(request, 'index.html', context)
+# 이후 articles 폴더 안에 templates라는 폴더를 생성한뒤 그 안에 index.html을 만들어준다. 
+
+def detail(request, id):
+    article = Article.objects.get(id=id)
+    comments = article.comment_set.all()
+    
+    form = CommentForm()
+    
+    context = {
+		'article' : article,
+        'form' : form,
+        'comment': comments,
+  
+	}
+    
+    return render(request, 'detail.html', context)
+
+# Comment Create 함수 만들기
+def comment_create(request, article_id):
+       if request.method == 'POST':
+              form = CommentForm(request. POST)
+              if form.is_valid():
+                     comment = form.save(commit=False)
+                     article = Article.objects.get(id=article_id)
+                     comment.article = article
+                     comment.save()
+                     
+                     return redirect('articles:detail', id=article_id)
+       else:
+              return redirect('articles:index')
+       
+       
+# Comment Delete 함수 만들기
+def comment_delete(request, article_id, id):
+    comment = Comment.objects.get(id=id)
+    comment.delete()
+    return redirect('articles:detail', id=article_id)

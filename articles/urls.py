@@ -10,7 +10,15 @@ app_name = 'articles'
 urlpatterns = [
     # Read
     path('', views.index, name='index'),
+    path('<int:id>/',views.detail,name='detail'),
 
     # Create
     path('create/', views.create, name='create'),
+
+    # Comment Create
+    path('<int:article_id>/comments/create/', views.comment_create, name='comment_create'),
+    
+    # Comment Delete
+    path('<int:article_id>/comments/<int:id>/delete/', views.comment_delete, name='comment_delete'),
+
 ]

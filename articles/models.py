@@ -10,4 +10,10 @@ class Article(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     # 데이터가 저장되는 최초의 순간의 시간 정보를 저장
     updated_at = models.DateTimeField(auto_now=True)
-    # 데이터가 저장되는 순간의 사간 정보를 저장
+    # 데이터가 저장되는 순간의 시간 정보를 저장
+
+# 1:N 관계 설정 (댓글 기능 구현하기)
+ 
+class Comment(models.Model):
+    content = models.TextField()
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
